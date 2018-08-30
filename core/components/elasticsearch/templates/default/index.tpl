@@ -1,0 +1,1 @@
+<div id="elasticsearch-panel-home-div"></div>

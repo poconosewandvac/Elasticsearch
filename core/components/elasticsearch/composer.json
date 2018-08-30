@@ -1,0 +1,14 @@
+{
+    "name": "poconosewandvac/elasticsearch",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Tony Klapatch",
+            "email": "tony.k@rogueclarity.com"
+        }
+    ],
+    "require": {
+        "elasticsearch/elasticsearch": "^6.0"
+    }
+}

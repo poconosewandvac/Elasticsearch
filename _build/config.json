@@ -1,0 +1,37 @@
+{
+    "name": "Elasticsearch",
+    "lowCaseName": "elasticsearch",
+    "description": "Elasticsearch plugin for MODX.",
+    "author": "Tony Klapatch",
+    "version": "0.1.0-dev",
+    "package": {
+        "elements": {
+            "plugins": [{
+                "name": "elasticsearchindexer",
+                "events": [
+                    "OnDocFormSave"
+                ]
+            }]
+        },
+        "systemSettings": [
+            {
+                "key": "resource_index",
+                "value": "",
+                "type": "textfield",
+                "area": "settings"
+            },
+            {
+                "key": "hosts",
+                "value": "127.0.0.1",
+                "type": "textfield",
+                "area": "settings"
+            },
+            {
+                "key": "tv_prefix",
+                "value": "tv.",
+                "type": "textfield",
+                "area": "settings"
+            }
+        ]
+    }
+}
