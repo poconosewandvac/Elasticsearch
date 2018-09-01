@@ -3,9 +3,23 @@
     "lowCaseName": "elasticsearch",
     "description": "Elasticsearch plugin for MODX.",
     "author": "Tony Klapatch",
-    "version": "0.1.0-dev",
+    "version": "0.1.1-dev",
     "package": {
         "elements": {
+            "snippets": [{
+                "name": "elasticsearch"
+            }],
+            "chunks": [
+                {
+                    "name": "elasticsearch.wrapTpl"
+                },
+                {
+                    "name": "elasticsearch.noResultsTpl"
+                },
+                {
+                    "name": "elasticsearch.tpl"
+                }
+            ],
             "plugins": [{
                 "name": "elasticsearchindexer",
                 "events": [
