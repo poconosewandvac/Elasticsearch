@@ -6,6 +6,20 @@
     "version": "0.1.0-dev",
     "package": {
         "elements": {
+            "snippets": [{
+                "name": "elasticsearch"
+            }],
+            "chunks": [
+                {
+                    "name": "elasticsearch.wrapTpl"
+                },
+                {
+                    "name": "elasticsearch.noResultsTpl"
+                },
+                {
+                    "name": "elasticsearch.tpl"
+                }
+            ],
             "plugins": [{
                 "name": "elasticsearchindexer",
                 "events": [

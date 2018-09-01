@@ -1,4 +1,14 @@
 <?php
+
+/**
+ * Elasticsearch
+ *
+ * Copyright 2018 by Tony Klapatch <tony@klapatch.net>
+ *
+ * @package imgix
+ * @license See core/components/elasticsearch/docs/license.txt
+ */
+
 $index = $modx->getOption('elasticsearch.resource_index', null, '');
 $tvPrefix = $modx->getOption('elasticsearch.tv_prefix', null, 'tv.');
 

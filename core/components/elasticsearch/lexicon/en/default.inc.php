@@ -23,3 +23,9 @@ $_lang['elasticsearch.cmp_col_index'] = 'Index';
 $_lang['elasticsearch.cmp_col_pri'] = 'Priority';
 $_lang['elasticsearch.cmp_col_doc_count'] = 'Doc Count';
 $_lang['elasticsearch.cmp_col_store_size'] = 'Store Size';
+
+// Frontend
+$_lang['elasticsearch.frontend_no_results'] = 'No results found for "[[+query]]"';
+$_lang['elasticsearch.frontend_no_query'] = 'No search term entered';
+$_lang['elasticsearch.frontend_query_not_long_enough'] = 'Search term not long enough. Must be at least [[+minChars]] characters long.';
+$_lang['elasticsearch.frontend_results'] = '[[+total]] results found';
