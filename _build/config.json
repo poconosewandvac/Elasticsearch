@@ -3,7 +3,7 @@
     "lowCaseName": "elasticsearch",
     "description": "Elasticsearch plugin for MODX.",
     "author": "Tony Klapatch",
-    "version": "0.1.1-dev",
+    "version": "0.2.0-dev",
     "package": {
         "elements": {
             "snippets": [{
@@ -23,7 +23,13 @@
             "plugins": [{
                 "name": "elasticsearchindexer",
                 "events": [
-                    "OnDocFormSave"
+                    "OnResourceDuplicate",
+                    "OnResourceUndelete",
+                    "OnDocPublished",
+                    "OnDocFormSave",
+                    "OnResourceDelete",
+                    "OnDocUnPublished",
+                    "OnDocFormDelete"
                 ]
             }]
         },
@@ -36,7 +42,7 @@
             },
             {
                 "key": "hosts",
-                "value": "127.0.0.1",
+                "value": "{\"host\": \"127.0.0.1\"}",
                 "type": "textfield",
                 "area": "settings"
             },
@@ -47,5 +53,12 @@
                 "area": "settings"
             }
         ]
+    },
+    "build": {
+        "resolver": {
+            "before": [
+                "resolve.customevents.php"
+            ]
+        }
     }
 }

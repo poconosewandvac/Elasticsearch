@@ -1,11 +1,10 @@
 <?php
-
 /**
  * Elasticsearch
  *
  * Copyright 2018 by Tony Klapatch <tony@klapatch.net>
  *
- * @package imgix
+ * @package Elasticsearch
  * @license See core/components/elasticsearch/docs/license.txt
  */
 
@@ -16,26 +15,37 @@ $tvPrefix = $modx->getOption('elasticsearch.tv_prefix', null, 'tv.');
 $path = $modx->getOption('elasticsearch.core_path', null, MODX_CORE_PATH . 'components/elasticsearch/') . 'model/elasticsearch/';
 $elasticSearch = $modx->getService('elasticsearchservice', 'ElasticsearchService', $path);
 $client = $elasticSearch->getClient();
+if (!$client) {
+    return;
+}
 
 // Make sure the index exists
 if (!$client->indices()->exists(['index' => $index])) {
-    $modx->log(1, '[Elasticsearch] Could not index; index not found.');
+    $modx->log(MODX_LOG_LEVEL_ERROR, '[Elasticsearch] Could not index; index not found.');
 }
 
-// Getting the object instead of referencing $resource to strip out unnecessary fields
 $page = $modx->getObject('modResource', $id);
 if (!$page) {
-    $modx->log(1, '[Elasticsearch] Could not index; page not found');
+    $modx->log(MODX_LOG_LEVEL_ERROR, '[Elasticsearch] Could not index; page not found');
 }
 
+$params = [
+    'index' => $index,
+    'type' => $page->get('class_key'),
+    'id' => $page->get('id')
+];
+
 switch ($modx->event->name) {
+    case 'OnResourceDuplicate':
+        $page = $newResource;
+    case 'OnResourceUndelete':
+    case 'OnDocPublished':
     case 'OnDocFormSave':
+        if (!$page->get('searchable')) {
+            return;
+        }
+
         // Index the resource
-        $params = [
-            'index' => $index,
-            'type' => $page->get('class_key'),
-            'id' => $page->get('id')
-        ];
         $params['body'] = $page->toArray();
 
         // Add the TVs
@@ -47,7 +57,30 @@ switch ($modx->event->name) {
             }
         }
 
+        $modx->invokeEvent('ElasticsearchBeforeIndex', [
+            'index' => $index,
+            'tvPrefix' => $tvPrefix,
+            'params' => &$params
+        ]);
+
         // Send it to Elasticsearch
-        $response = $client->index($params);
+        try {
+            $results = $client->index($params);
+        } catch (Exception $e) {
+            $modx->log(MODX_LOG_LEVEL_ERROR, '[Elasticsearch] Could not index; malformed request or Elasticsearch is down.');
+            return;
+        }
+
+        $modx->invokeEvent('ElasticsearchIndex', [
+            'params' => $params,
+            'results' => $results
+        ]);
+
+        break;
+
+    case 'OnResourceDelete':
+    case 'OnDocUnPublished':
+    case 'OnDocFormDelete':
+        $results = $client->delete($params);
         break;
 }

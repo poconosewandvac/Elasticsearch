@@ -1,0 +1,17 @@
+Elasticsearch for MODX
+======================
+
+0.2.0-dev
+======================
+- Added index events to control what gets indexed
+- Added search events to control what gets searched for
+- Improved search form
+- Better error handling
+
+0.1.1-dev
+======================
+- Added a basic search form
+
+0.1.0-dev
+======================
+- Initial release.

@@ -36,17 +36,23 @@ class ElasticsearchService {
 
     /**
      * Gets the ElasticSearch instance.
-     * @return Client
+     * @return Client|false
      */
     public function getClient()
     {
         if (!$this->client) {
-            $hosts = $this->modx->getOption('elasticsearch.hosts', null, '127.0.0.1');
-            $hosts = array_map('trim', explode(',', trim($hosts)));
+            $hosts = $this->modx->getOption('elasticsearch.hosts', null, '{"host": "127.0.0.1"}');
+            $hosts = json_decode($hosts, true);
 
             $clientBuilder = ClientBuilder::create();
             $clientBuilder->setHosts($hosts);
             $this->client = $clientBuilder->build();
+
+            // Trying pinging the client to see if it exists.
+            if (!$this->client->ping()) {
+                $this->modx->log(1, '[Elasticsearch] Could not connect to Elasticsearch.');
+                return false;
+            }
         }
 
         return $this->client;
